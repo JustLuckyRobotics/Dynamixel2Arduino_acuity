@@ -84,6 +84,8 @@ class Dynamixel2Arduino : public DYNAMIXEL::Master
      */    
     void begin(unsigned long baud = 57600);
 
+    void begin(unsigned long baud, uint8_t rx, uint8_t tx);
+
     /**
      * @brief It is API for getting serial baudrate of board port.
      * @code

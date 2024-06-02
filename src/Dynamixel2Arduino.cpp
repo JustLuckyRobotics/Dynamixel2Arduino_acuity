@@ -140,6 +140,18 @@ void Dynamixel2Arduino::begin(unsigned long baud)
   p_dxl_port_->begin(baud);
 }
 
+void Dynamixel2Arduino::begin(unsigned long baud, uint8_t rx, uint8_t tx)
+{
+  p_dxl_port_ = (SerialPortHandler*)getPort();
+
+  if(p_dxl_port_ == nullptr){
+    setLastLibErrCode(D2A_LIB_ERROR_NULLPTR_PORT_HANDLER);
+    return;
+  }
+
+  p_dxl_port_->begin(baud, SERIAL_8N1, rx, tx);
+}
+
 unsigned long Dynamixel2Arduino::getPortBaud()
 {
   p_dxl_port_ = (SerialPortHandler*)getPort();

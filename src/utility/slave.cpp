@@ -623,7 +623,9 @@ Slave::processInstWrite()
 
     } // for
 
-    ret = txStatusPacket(id_, packet_err, nullptr, 0);
+    //delayMicroseconds(250);
+    //ret = txStatusPacket(id_, packet_err, nullptr, 0);
+    ret = true;
   }
 
   last_lib_err_ = err;

@@ -44,7 +44,7 @@
 #elif defined (__OPENCR__)
 #define DEFAULT_DXL_BUF_LENGTH       2048
 #else
-#define DEFAULT_DXL_BUF_LENGTH       1024
+#define DEFAULT_DXL_BUF_LENGTH       2048
 #endif
 
 

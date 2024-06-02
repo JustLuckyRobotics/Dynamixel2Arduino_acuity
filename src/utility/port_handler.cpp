@@ -26,10 +26,10 @@ SerialPortHandler::SerialPortHandler(HardwareSerial& port, const int dir_pin)
 
 void SerialPortHandler::begin()
 {
-  begin(baud_);
+  begin(baud_, 0);
 }
 
-void SerialPortHandler::begin(unsigned long baud)
+void SerialPortHandler::begin(unsigned long baud, uint32_t config, uint8_t rx, uint8_t tx)
 {
 #if defined(ARDUINO_OpenCM904)
   if(port_ == Serial1 && getOpenState() == false){
@@ -49,16 +49,36 @@ void SerialPortHandler::begin(unsigned long baud)
   delay(500); // Wait for the DYNAMIXEL to power up normally.
 #endif
 
+#if defined(ESP_PLATFORM)
+  baud_ = baud;
+  Serial.println(F("CC"));
+  port_.setRxBufferSize(1024);
+  Serial.println(F("CD"));
+  port_.setTxBufferSize(1024);
+  Serial.println(F("CF"));
+
+  port_.begin(baud_, config, rx, tx);
+  Serial.println(F("CG"));
+  
+  mbedTXdelayus = 24000000 / baud;
+#else
   baud_ = baud;
   port_.begin(baud_);
   mbedTXdelayus = 24000000 / baud;
+#endif
+  
+  Serial.println(F("CH"));
   
   if(dir_pin_ != -1){
+    Serial.println(F("CI"));
     pinMode(dir_pin_, OUTPUT);
+    Serial.println(F("CJ"));
     digitalWrite(dir_pin_, LOW);
+    Serial.println(F("CK"));
+    delay(1000);
     while(digitalRead(dir_pin_) != LOW);
   }
-
+  Serial.println(F("CL"));
   setOpenState(true);
 }
 
